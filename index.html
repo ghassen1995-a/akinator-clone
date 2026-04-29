@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HistoriaAI - Guess the Historical Figure</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header with Language Selection -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-emoji">🧠</span>
+                <h1>HistoriaAI</h1>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn active" data-lang="en">EN 🇬🇧</button>
+                <button class="lang-btn" data-lang="fr">FR 🇫🇷</button>
+                <button class="lang-btn" data-lang="ar">AR 🇸🇦</button>
+            </div>
+        </header>
+
+        <!-- Welcome Screen -->
+        <div class="screen active" id="welcomeScreen">
+            <div class="screen-content welcome-content">
+                <div class="welcome-header">
+                    <h2 id="welcomeTitle">Think of a Famous Person</h2>
+                    <p id="welcomeSubtitle">Can our AI guess who you're thinking of?</p>
+                </div>
+
+                <div class="stats-preview">
+                    <div class="stat-card">
+                        <div class="stat-value" id="statsPlayed">0</div>
+                        <div class="stat-label" id="statsPlayedLabel">Games Played</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statsCorrect">0</div>
+                        <div class="stat-label" id="statsCorrectLabel">Correct Guesses</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statsRate">0%</div>
+                        <div class="stat-label" id="statsRateLabel">Success Rate</div>
+                    </div>
+                </div>
+
+                <div class="category-section">
+                    <label id="categoryLabel">Select Category (Optional):</label>
+                    <select id="categorySelect" class="category-select">
+                        <option value="">All Categories</option>
+                        <option value="politics">Politics & Leadership</option>
+                        <option value="science">Science & Innovation</option>
+                        <option value="arts">Arts & Culture</option>
+                        <option value="sports">Sports & Athletics</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="military">Military & Warfare</option>
+                        <option value="religion">Religion & Philosophy</option>
+                    </select>
+                </div>
+
+                <button id="startBtn" class="btn btn-primary btn-large">Start Game 🎮</button>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div class="screen" id="gameScreen">
+            <div class="screen-content game-content">
+                <div class="game-header">
+                    <div class="question-counter">
+                        <span id="questionNum">1</span> / 20
+                    </div>
+                    <button id="quitBtn" class="btn-icon">✕</button>
+                </div>
+
+                <div class="confidence-section">
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" id="confidenceFill"></div>
+                    </div>
+                    <div class="confidence-info">
+                        <span>Confidence: <strong id="confidenceValue">0</strong>%</span>
+                        <span id="remainingLabel" class="remaining-text">Possible: <strong id="remainingCount">0</strong></span>
+                    </div>
+                </div>
+
+                <div class="question-box">
+                    <p id="questionText">Loading question...</p>
+                </div>
+
+                <div class="answer-buttons">
+                    <button id="yesBtn" class="btn btn-answer btn-yes" id="answerYes">
+                        <span class="emoji">✓</span>
+                        <span id="answerYes">Yes</span>
+                    </button>
+                    <button id="noBtn" class="btn btn-answer btn-no" id="answerNo">
+                        <span class="emoji">✗</span>
+                        <span id="answerNo">No</span>
+                    </button>
+                    <button id="maybeBtn" class="btn btn-answer btn-maybe" id="answerMaybe">
+                        <span class="emoji">?</span>
+                        <span id="answerMaybe">Maybe</span>
+                    </button>
+                    <button id="dkBtn" class="btn btn-answer btn-dk" id="answerDK">
+                        <span class="emoji">↯</span>
+                        <span id="answerDK">Don't Know</span>
+                    </button>
+                </div>
+
+                <button id="skipBtn" class="btn btn-secondary btn-skip">
+                    <span id="skipText">Skip Question</span> ⊳
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div class="screen" id="resultScreen">
+            <div class="screen-content result-content">
+                <div class="result-header">
+                    <h2 id="resultTitle">The Person Is...</h2>
+                </div>
+
+                <div class="guess-card">
+                    <div class="guess-emoji" id="guessEmoji">👤</div>
+                    <h3 id="guessName">Loading...</h3>
+                    <div class="guess-details">
+                        <span class="detail-item">
+                            <span class="label">Era:</span>
+                            <span id="guessEra">-</span>
+                        </span>
+                        <span class="detail-item">
+                            <span class="label">Field:</span>
+                            <span id="guessField">-</span>
+                        </span>
+                    </div>
+                    <p id="guessDescription" class="guess-description">-</p>
+                </div>
+
+                <div class="accuracy-section">
+                    <div class="accuracy-container">
+                        <svg class="accuracy-circle" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" class="accuracy-bg"></circle>
+                            <circle cx="50" cy="50" r="45" class="accuracy-progress" id="accuracyCircle"></circle>
+                        </svg>
+                        <div class="accuracy-text">
+                            <div class="accuracy-percent" id="accuracyPercent">0</div>
+                            <div class="accuracy-label">% Accuracy</div>
+                        </div>
+                    </div>
+                    <p id="resultFeedback" class="result-feedback">Amazing!</p>
+                </div>
+
+                <div class="result-buttons">
+                    <button id="correctBtn" class="btn btn-success">
+                        <span id="correctText">✓ Correct!</span>
+                    </button>
+                    <button id="incorrectBtn" class="btn btn-danger">
+                        <span id="incorrectText">✗ Wrong</span>
+                    </button>
+                </div>
+
+                <div class="result-navigation">
+                    <button id="playAgainBtn" class="btn btn-secondary">
+                        <span id="playAgainText">Play Again</span> 🎮
+                    </button>
+                    <button id="homeBtn" class="btn btn-secondary">
+                        <span id="homeText">Home</span> 🏠
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Screen -->
+        <div class="screen" id="statsScreen">
+            <div class="screen-content stats-content">
+                <h2 id="statsTitle">Your Statistics</h2>
+
+                <div class="stats-grid">
+                    <div class="stats-card large">
+                        <div class="stats-icon">🎮</div>
+                        <div class="stats-label" id="statsPlayedLargeLabel">Games Played</div>
+                        <div class="stats-value" id="statsPlayedLarge">0</div>
+                    </div>
+                    <div class="stats-card large">
+                        <div class="stats-icon">✓</div>
+                        <div class="stats-label" id="statsCorrectLargeLabel">Correct Guesses</div>
+                        <div class="stats-value" id="statsCorrectLarge">0</div>
+                    </div>
+                    <div class="stats-card large">
+                        <div class="stats-icon">📊</div>
+                        <div class="stats-label" id="statsRateLargeLabel">Success Rate</div>
+                        <div class="stats-value" id="statsRateLarge">0%</div>
+                    </div>
+                    <div class="stats-card large">
+                        <div class="stats-icon">🎯</div>
+                        <div class="stats-label" id="statsAvgLabel">Average Accuracy</div>
+                        <div class="stats-value" id="statsAvg">0%</div>
+                    </div>
+                </div>
+
+                <button id="statsBackBtn" class="btn btn-primary btn-large">
+                    <span id="statsBackText">Back to Home</span> 🏠
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="translations.js"></script>
+    <script src="database.js"></script>
+    <script src="ai-engine.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
